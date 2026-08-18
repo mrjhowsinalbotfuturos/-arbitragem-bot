@@ -1,61 +1,63 @@
-name: Bot de Arbitragem
+name: Teste do Bot
 
 on:
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
-
-  executar:
+  teste:
 
     runs-on: ubuntu-latest
 
     steps:
 
-      - name: Baixar codigo
+      - name: Baixar repositorio
         uses: actions/checkout@v4
 
-      - name: Verificar arquivos
+      - name: Mostrar arquivos
         run: |
-          echo "================================"
-          echo "ARQUIVOS DO REPOSITORIO"
-          echo "================================"
-
+          echo "=============================="
+          echo "DIRETORIO ATUAL"
+          echo "=============================="
           pwd
 
           echo ""
-          echo "Arquivos na raiz:"
-          ls -la
-
-          echo ""
-          echo "Todos os arquivos:"
+          echo "=============================="
+          echo "ARQUIVOS"
+          echo "=============================="
           find . -maxdepth 3 -type f | sort
 
-      - name: Instalar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+          echo ""
+          echo "=============================="
+          echo "VERIFICANDO BOT.PY"
+          echo "=============================="
 
-      - name: Instalar bibliotecas
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Rodar bot
-        run: |
-          python bot.py
-
-      - name: Mostrar resultados
-        if: always()
-        run: |
-          echo "================================"
-          echo "RESULTADOS"
-          echo "================================"
-
-          if [ -f data/oportunidades.csv ]; then
-            cat data/oportunidades.csv
+          if [ -f bot.py ]; then
+            echo "OK - bot.py EXISTE"
           else
-            echo "Arquivo de resultados ainda não existe."
+            echo "ERRO - bot.py NAO EXISTE"
+            exit 1
+          fi
+
+          echo ""
+          echo "=============================="
+          echo "VERIFICANDO CONFIG.PY"
+          echo "=============================="
+
+          if [ -f config.py ]; then
+            echo "OK - config.py EXISTE"
+          else
+            echo "ERRO - config.py NAO EXISTE"
+            exit 1
+          fi
+
+          echo ""
+          echo "=============================="
+          echo "VERIFICANDO REQUIREMENTS.TXT"
+          echo "=============================="
+
+          if [ -f requirements.txt ]; then
+            echo "OK - requirements.txt EXISTE"
+          else
+            echo "ERRO - requirements.txt NAO EXISTE"
+            exit 1
           fi
