@@ -17,6 +17,22 @@ jobs:
       - name: Baixar codigo
         uses: actions/checkout@v4
 
+      - name: Verificar arquivos
+        run: |
+          echo "================================"
+          echo "ARQUIVOS DO REPOSITORIO"
+          echo "================================"
+
+          pwd
+
+          echo ""
+          echo "Arquivos na raiz:"
+          ls -la
+
+          echo ""
+          echo "Todos os arquivos:"
+          find . -maxdepth 3 -type f | sort
+
       - name: Instalar Python
         uses: actions/setup-python@v5
         with:
@@ -31,19 +47,15 @@ jobs:
         run: |
           python bot.py
 
-      - name: Salvar resultados
+      - name: Mostrar resultados
         if: always()
         run: |
+          echo "================================"
+          echo "RESULTADOS"
+          echo "================================"
 
-          git config user.name "github-actions[bot]"
-
-          git config user.email \
-            "github-actions[bot]@users.noreply.github.com"
-
-          git add data/oportunidades.csv
-
-          git diff --staged --quiet || \
-            git commit \
-            -m "Atualiza oportunidades"
-
-          git push
+          if [ -f data/oportunidades.csv ]; then
+            cat data/oportunidades.csv
+          else
+            echo "Arquivo de resultados ainda não existe."
+          fi
