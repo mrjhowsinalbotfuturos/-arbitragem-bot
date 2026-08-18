@@ -1,61 +1,29 @@
-name: Diagnostico
+name: Bot de Arbitragem
 
 on:
   workflow_dispatch:
 
 jobs:
-  diagnostico:
+
+  arbitragem:
+
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Baixar repositorio
         uses: actions/checkout@v4
 
-      - name: Mostrar tudo
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
         run: |
-          echo "======================================"
-          echo "DIRETORIO"
-          echo "======================================"
-          pwd
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-          echo ""
-          echo "======================================"
-          echo "ARQUIVOS DO PROJETO"
-          echo "======================================"
-          find . -type f | sort
-
-          echo ""
-          echo "======================================"
-          echo "BOT.PY"
-          echo "======================================"
-
-          if [ -f "./bot.py" ]; then
-            echo "BOT.PY ENCONTRADO"
-            ls -lh ./bot.py
-          else
-            echo "BOT.PY NAO ENCONTRADO"
-          fi
-
-          echo ""
-          echo "======================================"
-          echo "CONFIG.PY"
-          echo "======================================"
-
-          if [ -f "./config.py" ]; then
-            echo "CONFIG.PY ENCONTRADO"
-            ls -lh ./config.py
-          else
-            echo "CONFIG.PY NAO ENCONTRADO"
-          fi
-
-          echo ""
-          echo "======================================"
-          echo "REQUIREMENTS.TXT"
-          echo "======================================"
-
-          if [ -f "./requirements.txt" ]; then
-            echo "REQUIREMENTS.TXT ENCONTRADO"
-            ls -lh ./requirements.txt
-          else
-            echo "REQUIREMENTS.TXT NAO ENCONTRADO"
-          fi
+      - name: Executar bot
+        run: |
+          python bot.py
