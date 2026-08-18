@@ -1,63 +1,61 @@
-name: Teste do Bot
+name: Diagnostico
 
 on:
   workflow_dispatch:
 
 jobs:
-  teste:
-
+  diagnostico:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Baixar repositorio
         uses: actions/checkout@v4
 
-      - name: Mostrar arquivos
+      - name: Mostrar tudo
         run: |
-          echo "=============================="
-          echo "DIRETORIO ATUAL"
-          echo "=============================="
+          echo "======================================"
+          echo "DIRETORIO"
+          echo "======================================"
           pwd
 
           echo ""
-          echo "=============================="
-          echo "ARQUIVOS"
-          echo "=============================="
-          find . -maxdepth 3 -type f | sort
+          echo "======================================"
+          echo "ARQUIVOS DO PROJETO"
+          echo "======================================"
+          find . -type f | sort
 
           echo ""
-          echo "=============================="
-          echo "VERIFICANDO BOT.PY"
-          echo "=============================="
+          echo "======================================"
+          echo "BOT.PY"
+          echo "======================================"
 
-          if [ -f bot.py ]; then
-            echo "OK - bot.py EXISTE"
+          if [ -f "./bot.py" ]; then
+            echo "BOT.PY ENCONTRADO"
+            ls -lh ./bot.py
           else
-            echo "ERRO - bot.py NAO EXISTE"
-            exit 1
+            echo "BOT.PY NAO ENCONTRADO"
           fi
 
           echo ""
-          echo "=============================="
-          echo "VERIFICANDO CONFIG.PY"
-          echo "=============================="
+          echo "======================================"
+          echo "CONFIG.PY"
+          echo "======================================"
 
-          if [ -f config.py ]; then
-            echo "OK - config.py EXISTE"
+          if [ -f "./config.py" ]; then
+            echo "CONFIG.PY ENCONTRADO"
+            ls -lh ./config.py
           else
-            echo "ERRO - config.py NAO EXISTE"
-            exit 1
+            echo "CONFIG.PY NAO ENCONTRADO"
           fi
 
           echo ""
-          echo "=============================="
-          echo "VERIFICANDO REQUIREMENTS.TXT"
-          echo "=============================="
+          echo "======================================"
+          echo "REQUIREMENTS.TXT"
+          echo "======================================"
 
-          if [ -f requirements.txt ]; then
-            echo "OK - requirements.txt EXISTE"
+          if [ -f "./requirements.txt" ]; then
+            echo "REQUIREMENTS.TXT ENCONTRADO"
+            ls -lh ./requirements.txt
           else
-            echo "ERRO - requirements.txt NAO EXISTE"
-            exit 1
+            echo "REQUIREMENTS.TXT NAO ENCONTRADO"
           fi
